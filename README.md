@@ -34,6 +34,7 @@ First, you need to setup the dependency on the ForestRedisAPI. Replace **VERSION
         <groupId>com.github.ForestTechMC</groupId>
         <artifactId>ForestRedisAPI</artifactId>
         <version>VERSION</version>
+        <scope>provided</scope>
     </dependency>
 </dependencies>
 ```
