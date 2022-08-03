@@ -15,21 +15,20 @@ import java.util.logging.Logger;
 public class ForestRedisSpigot extends JavaPlugin implements IForestRedisPlugin {
 
     private static ForestRedisSpigot instance;
-    private static RedisManager redisManager;
 
     @Override
     public void onEnable() {
         instance = this;
-        redisManager = load(null);
+        load();
         this.getCommand("forestredis").setExecutor(new SpigotForestRedisCommand());
     }
 
     @Override
     public void onDisable() {
-        if (redisManager == null) {
+        if (RedisManager.getAPI() == null) {
             return;
         }
-        redisManager.close();
+        RedisManager.getAPI().close();
     }
 
     @Override
@@ -53,16 +52,6 @@ public class ForestRedisSpigot extends JavaPlugin implements IForestRedisPlugin 
         SpigotConfigAdapter spigotConfigAdapter = new SpigotConfigAdapter();
         spigotConfigAdapter.setup("config");
         return spigotConfigAdapter;
-    }
-
-    /**
-     * Gets the singleton instance of {@link RedisManager} object. This is the only
-     * recommended approach to access the API methods.
-     *
-     * @return Singleton instance of {@link RedisManager}
-     */
-    public static RedisManager getAPI() {
-        return redisManager;
     }
 
     public static ForestRedisSpigot getInstance() {

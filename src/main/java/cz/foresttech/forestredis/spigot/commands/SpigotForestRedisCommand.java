@@ -23,7 +23,7 @@ public class SpigotForestRedisCommand implements CommandExecutor {
         }
 
         if (args[0].equalsIgnoreCase("reload")) {
-            ForestRedisSpigot.getInstance().load(ForestRedisSpigot.getAPI());
+            ForestRedisSpigot.getInstance().load();
             commandSender.sendMessage("§2[ForestRedisAPI] §7ForestRedis successfully reloaded!");
             return true;
         }
