@@ -1,0 +1,16 @@
+# Redis server credentials. If no password/username is required, type "null"
+redis:
+  hostname: "localhost"
+  port: 6379
+  username: null
+  password: null
+  ssl: false
+
+# Name of the current server. Shall be unique across the network!
+serverIdentifier: "MySuperServer1"
+
+# Names of the channels to subscribe on start. Can be empty as plugins can manually subscribe on their own.
+# For detailed information see our wiki: https://gitbook.io/foresttech/forestredis
+channels:
+  - "chat"
+  - "test"

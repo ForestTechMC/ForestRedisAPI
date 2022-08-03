@@ -1,0 +1,9 @@
+name: ${project.name}
+main: cz.foresttech.forestredis.spigot.ForestRedisSpigot
+author: ForestTech
+version: ${project.version}
+description: Powerful and simple Redis API by ForestTech
+api-version: 1.13
+
+commands:
+  forestredis:
