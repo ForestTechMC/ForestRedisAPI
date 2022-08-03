@@ -1,6 +1,7 @@
 package cz.foresttech.forestredis.spigot.config;
 
 import com.google.common.base.Charsets;
+import cz.foresttech.forestredis.bungee.ForestRedisBungee;
 import cz.foresttech.forestredis.shared.config.IConfigurationAdapter;
 import cz.foresttech.forestredis.spigot.ForestRedisSpigot;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -32,7 +33,7 @@ public class SpigotConfigAdapter implements IConfigurationAdapter {
         }
 
         configuration = YamlConfiguration.loadConfiguration(file);
-        reloadConfig();
+        loadConfiguration();
     }
 
     @Override
@@ -40,11 +41,17 @@ public class SpigotConfigAdapter implements IConfigurationAdapter {
         return configuration != null;
     }
 
-    public void reloadConfig() {
-        configuration = YamlConfiguration.loadConfiguration(file);
-        InputStream defConfigStream = ForestRedisSpigot.getInstance().getResource(fileName + ".yml");
-        if (defConfigStream != null) {
-            configuration.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream, Charsets.UTF_8)));
+    @Override
+    public void loadConfiguration() {
+        try {
+            configuration = YamlConfiguration.loadConfiguration(file);
+            InputStream defConfigStream = ForestRedisSpigot.getInstance().getResource(fileName + ".yml");
+            if (defConfigStream != null) {
+                configuration.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream, Charsets.UTF_8)));
+            }
+        } catch (Exception ex) {
+            ForestRedisBungee.getInstance().logger().warning("Cannot load config.yml! This server won't process any Redis communication!");
+            configuration = null;
         }
     }
 

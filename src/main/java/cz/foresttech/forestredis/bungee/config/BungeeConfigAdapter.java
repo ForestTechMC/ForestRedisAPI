@@ -15,6 +15,7 @@ import java.util.List;
 public class BungeeConfigAdapter implements IConfigurationAdapter {
 
     private String fileName;
+    private Configuration configuration;
 
     @Override
     public void setup(String fileName) {
@@ -33,45 +34,46 @@ public class BungeeConfigAdapter implements IConfigurationAdapter {
                 ForestRedisBungee.getInstance().logger().warning("Cannot create config.yml! This proxy won't process any Redis communication!");
                 return;
             }
-            loadYamlFile();
+            loadConfiguration();
         }
-        loadYamlFile();
+        loadConfiguration();
     }
 
     @Override
     public boolean isSetup() {
-        return loadYamlFile() != null;
+        return configuration != null;
     }
 
-    public Configuration loadYamlFile() {
+    @Override
+    public void loadConfiguration() {
         try {
-            return ConfigurationProvider
+            configuration = ConfigurationProvider
                     .getProvider(YamlConfiguration.class)
                     .load(new File(ForestRedisBungee.getInstance().getDataFolder(), fileName + ".yml"));
         } catch (IOException e) {
             ForestRedisBungee.getInstance().logger().warning("Cannot load config.yml! This proxy won't process any Redis communication!");
-            return null;
+            configuration = null;
         }
     }
 
     @Override
     public String getString(String path, String def) {
-        return this.loadYamlFile().getString(path, def);
+        return this.configuration.getString(path, def);
     }
 
     @Override
     public int getInt(String path, int def) {
-        return this.loadYamlFile().getInt(path, def);
+        return this.configuration.getInt(path, def);
     }
 
     @Override
     public boolean getBoolean(String path, boolean def) {
-        return this.loadYamlFile().getBoolean(path, def);
+        return this.configuration.getBoolean(path, def);
     }
 
     @Override
     public List<String> getStringList(String path) {
-        return this.loadYamlFile().getStringList(path);
+        return this.configuration.getStringList(path);
     }
 
 }

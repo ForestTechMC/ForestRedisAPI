@@ -8,6 +8,8 @@ public interface IConfigurationAdapter {
 
     boolean isSetup();
 
+    void loadConfiguration();
+
     String getString(String path, String def);
 
     int getInt(String path, int def);
