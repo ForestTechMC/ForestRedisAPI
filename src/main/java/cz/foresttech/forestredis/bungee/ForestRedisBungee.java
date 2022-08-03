@@ -14,21 +14,22 @@ import java.util.logging.Logger;
 public class ForestRedisBungee extends Plugin implements IForestRedisPlugin {
 
     private static ForestRedisBungee instance;
+    private static RedisManager redisManager;
 
     @Override
     public void onEnable() {
         instance = this;
-        load();
+        redisManager = load(null);
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new BungeeForestRedisCommand());
     }
 
     @Override
     public void onDisable() {
         // Close the RedisManager
-        if (RedisManager.getAPI() == null) {
+        if (redisManager == null) {
             return;
         }
-        RedisManager.getAPI().close();
+        redisManager.close();
     }
 
     @Override
@@ -51,6 +52,16 @@ public class ForestRedisBungee extends Plugin implements IForestRedisPlugin {
         BungeeConfigAdapter bungeeConfigAdapter = new BungeeConfigAdapter();
         bungeeConfigAdapter.setup("config");
         return bungeeConfigAdapter;
+    }
+
+    /**
+     * Gets the singleton instance of {@link RedisManager} object. This is the only
+     * recommended approach to access the API methods.
+     *
+     * @return Singleton instance of {@link RedisManager}
+     */
+    public static RedisManager getAPI() {
+        return redisManager;
     }
 
     public static ForestRedisBungee getInstance() {

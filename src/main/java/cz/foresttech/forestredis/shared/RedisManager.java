@@ -366,16 +366,4 @@ public class RedisManager {
     }
 
     /*----------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Gets the singleton instance of {@link RedisManager} object. This is the only
-     * recommended approach to access the API methods.
-     *
-     * @return Singleton instance of {@link RedisManager}
-     */
-    public static RedisManager getAPI() {
-        return api;
-    }
-
-    /*----------------------------------------------------------------------------------------------------------*/
 }

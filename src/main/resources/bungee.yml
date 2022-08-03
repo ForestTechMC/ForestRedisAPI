@@ -1,7 +1,7 @@
-name: ${project.name}
+name: ForestRedisAPI
 main: cz.foresttech.forestredis.bungee.ForestRedisBungee
 author: ForestTech
-version: ${project.version}
+version: 1.0.2
 description: Powerful and simple Redis API by ForestTech
 api-version: 1.13
 

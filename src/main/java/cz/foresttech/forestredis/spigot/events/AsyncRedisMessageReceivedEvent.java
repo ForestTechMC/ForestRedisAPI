@@ -3,6 +3,7 @@ package cz.foresttech.forestredis.spigot.events;
 import cz.foresttech.forestredis.shared.events.IRedisMessageReceivedEvent;
 import cz.foresttech.forestredis.shared.models.MessageTransferObject;
 import cz.foresttech.forestredis.shared.RedisManager;
+import cz.foresttech.forestredis.spigot.ForestRedisSpigot;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -41,7 +42,7 @@ public class AsyncRedisMessageReceivedEvent extends Event implements IRedisMessa
 
     @Override
     public boolean isSelfSender() {
-        return this.messageTransferObject.getSenderIdentifier().equals(RedisManager.getAPI().getServerIdentifier());
+        return this.messageTransferObject.getSenderIdentifier().equals(ForestRedisSpigot.getAPI().getServerIdentifier());
     }
 
     @Override

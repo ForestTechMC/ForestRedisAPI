@@ -26,7 +26,7 @@ public class BungeeForestRedisCommand extends Command {
         }
 
         if (args[0].equalsIgnoreCase("reload")) {
-            ForestRedisBungee.getInstance().load();
+            ForestRedisBungee.getInstance().load(ForestRedisBungee.getAPI());
             commandSender.sendMessage("§2[ForestRedisAPI] §7ForestRedis successfully reloaded!");
             return;
         }

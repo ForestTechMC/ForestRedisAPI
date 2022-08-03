@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>ForestRedisAPI</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -89,11 +89,6 @@
 
 
     <dependencies>
-        <dependency>
-            <groupId>com.github.ForestTechMC</groupId>
-            <artifactId>ForestRedisAPI</artifactId>
-            <version>v${project.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>

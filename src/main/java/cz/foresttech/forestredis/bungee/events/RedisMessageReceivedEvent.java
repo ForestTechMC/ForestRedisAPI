@@ -1,5 +1,6 @@
 package cz.foresttech.forestredis.bungee.events;
 
+import cz.foresttech.forestredis.bungee.ForestRedisBungee;
 import cz.foresttech.forestredis.shared.events.IRedisMessageReceivedEvent;
 import cz.foresttech.forestredis.shared.models.MessageTransferObject;
 import cz.foresttech.forestredis.shared.RedisManager;
@@ -22,7 +23,7 @@ public class RedisMessageReceivedEvent extends Event implements IRedisMessageRec
 
     @Override
     public boolean isSelfSender() {
-        return this.messageTransferObject.getSenderIdentifier().equals(RedisManager.getAPI().getServerIdentifier());
+        return this.messageTransferObject.getSenderIdentifier().equals(ForestRedisBungee.getAPI().getServerIdentifier());
     }
 
     @Override
