@@ -90,6 +90,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.github.ForestTechMC</groupId>
+            <artifactId>ForestRedisAPI</artifactId>
+            <version>v${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.17.1-R0.1-SNAPSHOT</version>
