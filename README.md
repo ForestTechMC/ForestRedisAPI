@@ -4,14 +4,24 @@
 ![badge](https://img.shields.io/github/downloads/ForestTechMC/ForestRedisAPI/total)
 ![badge](https://img.shields.io/github/last-commit/ForestTechMC/ForestRedisAPI)
 ![badge](https://img.shields.io/badge/platform-spigot%20%7C%20bungeecord-lightgrey)
-![badge](https://img.shields.io/discord/896466173166747650?label=discord)
+[![badge](https://img.shields.io/discord/896466173166747650?label=discord)](https://discord.gg/2PpdrfxhD4)
+[![badge](https://img.shields.io/github/license/ForestTechMC/ForestRedisAPI)](https://github.com/ForestTechMC/ForestRedisAPI/blob/master/LICENSE.txt)
 
 Simple Spigot&Bungee Redis API based on Jedis library. ForestRedisAPI allows developers to comfortably maintain
 communication between servers using simple API calls and Events. **Supports both BungeeCord and Spigot servers.**
 
+## Table of contents
+
+* [Getting started](#getting-started)
+* [Subscribing the channel](#subscribing-the-channel)
+* [Publishing messages / objects](#publishing-messages--objects)
+* [Events & incoming messages](#events--incoming-messages)
+* [Standalone usage](#standalone-usage)
+* [License](#license)
+
 ## Getting started
 
-Make sure the server has ForestRedisAPI plugin installed. Otherwise, look at **[Standalone Usage](https://github.com/ForestTechMC/ForestRedisAPI#standalone-usage-without-forestredisapi-installed)**.
+Make sure the server has ForestRedisAPI plugin installed. Otherwise, look at **[Standalone Usage](#standalone-usage)**.
 
 ### Add ForestRedisAPI to your project 
 
@@ -19,7 +29,8 @@ Make sure the server has ForestRedisAPI plugin installed. Otherwise, look at **[
 
 First, you need to setup the dependency on the ForestRedisAPI. Replace **VERSION** with the version of the release.
 
-#### Maven
+<details>
+    <summary>Maven</summary>
 
 ```xml
 <repositories>
@@ -38,8 +49,10 @@ First, you need to setup the dependency on the ForestRedisAPI. Replace **VERSION
     </dependency>
 </dependencies>
 ```
+</details>
 
-#### Gradle
+<details>
+    <summary>Gradle</summary>
 
 ```gradle
 allprojects {
@@ -53,19 +66,40 @@ dependencies {
     implementation 'com.github.ForestTechMC:ForestRedisAPI:VERSION'
 }
 ```
+</details>
 
 ### Plugin configuration
 
 You need to (soft)depend on ForestRedisAPI in order to work properly. Choose depend(s) for mandatory usage of the
 ForestRedisAPI or softdepend(s) for optional usage.
 
-for **plugin.yml**: `depend: [ForestRedisAPI]` or `softdepend: [ForestRedisAPI]`
+<details>
+    <summary>plugin.yml (Spigot)</summary>
 
-for **bungee.yml**: `depends: [ForestRedisAPI]` or `softDepends: [ForestRedisAPI]`
+```yaml
+# Required dependency
+depend: [ForestRedisAPI]
+# Optional dependency
+softdepend: [ForestRedisAPI]
+```
 
-## Subscribing to channel
+</details>
 
-To receive data from Redis server, you need to subscribe to selected channels. You can do it simply just by calling:
+<details>
+    <summary>bungee.yml (BungeeCord)</summary>
+
+```yaml
+# Required dependency
+depends: [ForestRedisAPI]
+# Optional dependency
+softDepends: [ForestRedisAPI]
+```
+
+</details>
+
+## Subscribing the channel
+
+To receive data from Redis server, you need to subscribe selected channels. You can do it simply just by calling:
 
 ```java
 // You can check if the channel is subscribed or not
@@ -136,6 +170,9 @@ required data.
 
 This approach however **IS NOT RECOMMENDED** unless you know what you're doing!
 
+<details>
+    <summary>Example plugin main class</summary>
+
 ```java
 import cz.foresttech.forestredis.shared.IForestRedisPlugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -203,6 +240,7 @@ public class MyExamplePlugin extends JavaPlugin implements IForestRedisPlugin {
     }
 }
 ```
+</details>
 
 ## License
 ForestRedisAPI is licensed under the permissive MIT license. Please see [`LICENSE.txt`](https://github.com/ForestTechMC/ForestRedisAPI/blob/master/LICENSE.txt) for more information.
