@@ -35,12 +35,22 @@ public interface IRedisMessageReceivedEvent {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
+     * Obtains message timestamp
+     *
+     * @return  TimeStamp of the message
+     */
+    long getTimeStamp();
+
+    /*----------------------------------------------------------------------------------------------------------*/
+
+    /**
      * Obtains object from received message by provided type
      *
      * @param objectClass   Object class
      * @param <T>   Object type
      * @return  Parsed object (null if it cannot be parsed)
      */
+    @SuppressWarnings("Make sure the recieved message can really be converted to provided type!")
     <T> T getMessageObject(Class<T> objectClass);
 
     /*----------------------------------------------------------------------------------------------------------*/
@@ -51,5 +61,7 @@ public interface IRedisMessageReceivedEvent {
      * @return  Whether the message was sent by this server
      */
     boolean isSelfSender();
+
+    /*----------------------------------------------------------------------------------------------------------*/
 
 }

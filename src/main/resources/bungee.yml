@@ -1,7 +1,7 @@
 name: ForestRedisAPI
 main: cz.foresttech.forestredis.bungee.ForestRedisBungee
 author: ForestTech
-version: 1.0.2
+version: ${project.version}
 description: Powerful and simple Redis API by ForestTech
 api-version: 1.13
 

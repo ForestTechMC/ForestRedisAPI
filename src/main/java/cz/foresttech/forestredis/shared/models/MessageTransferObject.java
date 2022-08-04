@@ -11,29 +11,24 @@ public class MessageTransferObject {
 
     private String senderIdentifier;
     private String message;
+    private long timestamp;
 
     public MessageTransferObject() {
     }
 
-    public MessageTransferObject(String senderIdentifier, String message) {
+    /*----------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Constructs the instance with provided parameters
+     *
+     * @param senderIdentifier Identifier of sending server
+     * @param message          Message content
+     * @param timestamp        TimeStamp of the message
+     */
+    public MessageTransferObject(String senderIdentifier, String message, long timestamp) {
         this.senderIdentifier = senderIdentifier;
         this.message = message;
-    }
-
-    public String getSenderIdentifier() {
-        return senderIdentifier;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setSenderIdentifier(String senderIdentifier) {
-        this.senderIdentifier = senderIdentifier;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+        this.timestamp = timestamp;
     }
 
     /*----------------------------------------------------------------------------------------------------------*/
@@ -41,7 +36,7 @@ public class MessageTransferObject {
     /**
      * Converts current data to JSON using {@link Gson}
      *
-     * @return
+     * @return Object serialized to JSON String
      */
     public String toJson() {
         try {
@@ -57,8 +52,8 @@ public class MessageTransferObject {
     /**
      * Obtains {@link MessageTransferObject} from provided JSON String.
      *
-     * @param json
-     * @return
+     * @param json Serialized {@link MessageTransferObject} in JSON String
+     * @return Deserialized {@link MessageTransferObject}
      */
     public static MessageTransferObject fromJson(String json) {
         try {
@@ -74,15 +69,16 @@ public class MessageTransferObject {
     /**
      * Wraps the given object to {@link MessageTransferObject} object.
      *
-     * @param senderIdentifier
-     * @param objectToWrap
-     * @return
+     * @param senderIdentifier Identifier of the sending server
+     * @param objectToWrap     Object which shall be wrapped
+     * @param timestamp        TimeStamp of the message
+     * @return Instance of {@link MessageTransferObject} containing serialized object from input
      */
-    public static MessageTransferObject wrap(String senderIdentifier, Object objectToWrap) {
+    public static MessageTransferObject wrap(String senderIdentifier, Object objectToWrap, long timestamp) {
         Gson gson = new GsonBuilder().create();
         String message = gson.toJson(objectToWrap);
 
-        return new MessageTransferObject(senderIdentifier, message);
+        return new MessageTransferObject(senderIdentifier, message, timestamp);
     }
 
     /*----------------------------------------------------------------------------------------------------------*/
@@ -105,4 +101,27 @@ public class MessageTransferObject {
 
     /*----------------------------------------------------------------------------------------------------------*/
 
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getSenderIdentifier() {
+        return senderIdentifier;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setSenderIdentifier(String senderIdentifier) {
+        this.senderIdentifier = senderIdentifier;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

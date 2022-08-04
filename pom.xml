@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>ForestRedisAPI</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -20,6 +20,7 @@
                 <filtering>true</filtering>
                 <includes>
                     <include>plugin.yml</include>
+                    <include>bungee.yml</include>
                 </includes>
             </resource>
             <resource>
@@ -27,6 +28,7 @@
                 <filtering>false</filtering>
                 <excludes>
                     <exclude>plugin.yml</exclude>
+                    <exclude>bungee.yml</exclude>
                 </excludes>
             </resource>
         </resources>

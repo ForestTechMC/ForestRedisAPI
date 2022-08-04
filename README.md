@@ -175,6 +175,7 @@ This approach however **IS NOT RECOMMENDED** unless you know what you're doing!
 
 ```java
 import cz.foresttech.forestredis.shared.IForestRedisPlugin;
+import cz.foresttech.forestredis.shared.RedisManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -189,7 +190,7 @@ public class MyExamplePlugin extends JavaPlugin implements IForestRedisPlugin {
         load();
         // ...
     }
-    
+
     @Override
     public void onDisable() {
         //...
@@ -213,12 +214,16 @@ public class MyExamplePlugin extends JavaPlugin implements IForestRedisPlugin {
         );
 
         // Initialize RedisManager instance (singleton)
-        new RedisManager(this, serverIdentifier, redisConfiguration).setup();
+        // Since init, use RedisManager#getAPI() to obtain the instance
+        RedisManager.init(this, serverIdentifier, redisConfiguration);
+        
+        // Now setup the connection
+        RedisManager.getAPI().setup(/*channels*/);
 
         // Now you can use #getAPI() call to get singleton instance
         RedisManager.getAPI().subscribe("MyChannel1");
     }
-    
+
     @Override
     public void runAsync(Runnable task) {
         // Required so RedisManager can run tasks async

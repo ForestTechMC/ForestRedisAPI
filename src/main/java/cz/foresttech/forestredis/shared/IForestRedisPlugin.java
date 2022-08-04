@@ -57,6 +57,7 @@ public interface IForestRedisPlugin {
      * Loading RedisManager from config method
      */
     default void load() {
+        // Close if RedisManager is already initialized
         if (RedisManager.getAPI() != null) {
             RedisManager.getAPI().close();
         }
@@ -86,7 +87,7 @@ public interface IForestRedisPlugin {
         );
 
         // Initialize RedisManager object
-        new RedisManager(this, serverIdentifier, redisConfiguration);
+        RedisManager.init(this, serverIdentifier, redisConfiguration);
 
         // Setup the RedisManager
         List<String> channels = configAdapter.getStringList("channels");
@@ -98,4 +99,7 @@ public interface IForestRedisPlugin {
         String[] channelsArray = channels.toArray(new String[0]);
         RedisManager.getAPI().setup(channelsArray);
     }
+
+    /*----------------------------------------------------------------------------------------------------------*/
+
 }

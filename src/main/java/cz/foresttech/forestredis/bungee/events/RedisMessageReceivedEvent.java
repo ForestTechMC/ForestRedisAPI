@@ -41,7 +41,6 @@ public class RedisMessageReceivedEvent extends Event implements IRedisMessageRec
     }
 
     @Override
-    @SuppressWarnings("Make sure the recieved message can really be converted to provided type!")
     public <T> T getMessageObject(Class<T> objectClass) {
         return this.messageTransferObject.parseMessageObject(objectClass);
     }
@@ -49,6 +48,11 @@ public class RedisMessageReceivedEvent extends Event implements IRedisMessageRec
     @Override
     public boolean isSelfSender() {
         return this.messageTransferObject.getSenderIdentifier().equals(RedisManager.getAPI().getServerIdentifier());
+    }
+
+    @Override
+    public long getTimeStamp() {
+        return this.messageTransferObject.getTimestamp();
     }
 
 }

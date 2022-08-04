@@ -59,17 +59,14 @@ public class RedisManager {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Constructor method for obtaining {@link RedisManager} instance. Constructor does not subscribe to the channels,
+     * Constructor method for creating {@link RedisManager} instance. Constructor does not subscribe to the channels,
      * it just stores the provided data for the future.
      *
      * @param plugin             Origin plugin which tries to obtain the instance
      * @param serverIdentifier   Identifier of the server (e.g. 'Bungee01'). Shall be unique to prevent bugs
      * @param redisConfiguration {@link RedisConfiguration} object with Redis server credentials
      */
-    public RedisManager(IForestRedisPlugin plugin, String serverIdentifier, RedisConfiguration redisConfiguration) {
-        // Initialize singleton instance
-        api = this;
-
+    private RedisManager(IForestRedisPlugin plugin, String serverIdentifier, RedisConfiguration redisConfiguration) {
         this.plugin = plugin;
         this.closing = false;
 
@@ -203,7 +200,7 @@ public class RedisManager {
      * @see #publishMessage(String, String)
      */
     public boolean publishObject(String targetChannel, Object objectToPublish) {
-        MessageTransferObject messageTransferObject = MessageTransferObject.wrap(this.serverIdentifier, objectToPublish);
+        MessageTransferObject messageTransferObject = MessageTransferObject.wrap(this.serverIdentifier, objectToPublish, System.currentTimeMillis());
         return this.executePublish(targetChannel, messageTransferObject);
     }
 
@@ -219,7 +216,7 @@ public class RedisManager {
      * @see #publishObject(String, Object)
      */
     public boolean publishMessage(String targetChannel, String messageToPublish) {
-        MessageTransferObject messageTransferObject = new MessageTransferObject(this.serverIdentifier, messageToPublish);
+        MessageTransferObject messageTransferObject = new MessageTransferObject(this.serverIdentifier, messageToPublish, System.currentTimeMillis());
         return this.executePublish(targetChannel, messageTransferObject);
     }
 
@@ -384,6 +381,20 @@ public class RedisManager {
 
             RedisManager.this.plugin.callEvent(channel, messageTransferObject);
         }
+    }
+
+    /*----------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Initialization method for creating {@link RedisManager} singleton instance. This won't start any
+     * connection or subscription.
+     *
+     * @param plugin             Origin plugin which tries to obtain the instance
+     * @param serverIdentifier   Identifier of the server (e.g. 'Bungee01'). Shall be unique to prevent bugs
+     * @param redisConfiguration {@link RedisConfiguration} object with Redis server credentials
+     */
+    public static void init(IForestRedisPlugin plugin, String serverIdentifier, RedisConfiguration redisConfiguration) {
+        api = new RedisManager(plugin, serverIdentifier, redisConfiguration);
     }
 
     /*----------------------------------------------------------------------------------------------------------*/

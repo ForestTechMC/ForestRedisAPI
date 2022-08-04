@@ -75,4 +75,6 @@ public interface IConfigurationAdapter {
      */
     List<String> getStringList(String path);
 
+    /*----------------------------------------------------------------------------------------------------------*/
+
 }
