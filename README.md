@@ -63,34 +63,6 @@ for **plugin.yml**: `depend: [ForestRedisAPI]` or `softdepend: [ForestRedisAPI]`
 
 for **bungee.yml**: `depends: [ForestRedisAPI]` or `softDepends: [ForestRedisAPI]`
 
-### Standalone usage (without ForestRedisAPI installed)
-
-You can use the ForestRedisAPI as standalone library. Then you need to initialize RedisManager and provide him with
-required data.
-
-```java
-/**
- * Use this ONLY if ForestRedisAPI plugin is not present and
- * for some reason you don't want to install it.
- */
-public void setupRedis() {
-    // Construct RedisConfiguration object
-    RedisConfiguration redisConfiguration = new RedisConfiguration(
-            "localhost", //hostname
-            6379, //port
-            null, //username (null if not any)
-            null, //password (null if not any)
-            false //ssl
-    );
-
-    // Initialize RedisManager instance (singleton)
-    new RedisManager(this, serverIdentifier, redisConfiguration).setup();
-    
-    // Now you can use #getAPI() call to get singleton instance
-    RedisManager.getAPI().subscribe("MyChannel1");
-}
-```
-
 ## Subscribing to channel
 
 To receive data from Redis server, you need to subscribe to selected channels. You can do it simply just by calling:
@@ -154,6 +126,81 @@ public class MyListener implements Listener {
 
     }
 
+}
+```
+
+## Standalone usage
+
+You can use the ForestRedisAPI as a standalone library. Then you need to initialize RedisManager and provide him with
+required data. 
+
+This approach however **IS NOT RECOMMENDED** unless you know what you're doing!
+
+```java
+import cz.foresttech.forestredis.shared.IForestRedisPlugin;
+import org.bukkit.plugin.java.JavaPlugin;
+
+/**
+ * Use this ONLY if ForestRedisAPI plugin is not present and
+ * for some reason you don't want to install it.
+ */
+public class MyExamplePlugin extends JavaPlugin implements IForestRedisPlugin {
+
+    @Override
+    public void onEnable() {
+        // ...
+        load();
+        // ...
+    }
+    
+    @Override
+    public void onDisable() {
+        //...
+        if (RedisManager.getAPI() == null) {
+            return;
+        }
+        // Close the RedisManager
+        RedisManager.getAPI().close();
+        //...
+    }
+
+    @Override
+    public void load() {
+        // Construct RedisConfiguration object
+        RedisConfiguration redisConfiguration = new RedisConfiguration(
+                "localhost", //hostname
+                6379, //port
+                null, //username (null if not any)
+                null, //password (null if not any)
+                false //ssl
+        );
+
+        // Initialize RedisManager instance (singleton)
+        new RedisManager(this, serverIdentifier, redisConfiguration).setup();
+
+        // Now you can use #getAPI() call to get singleton instance
+        RedisManager.getAPI().subscribe("MyChannel1");
+    }
+    
+    @Override
+    public void runAsync(Runnable task) {
+        // Required so RedisManager can run tasks async
+        Bukkit.getScheduler().runTaskAsynchronously(instance, task);
+    }
+
+    @Override
+    @SuppressWarnings("Called asynchronously!")
+    public void callEvent(String channel, MessageTransferObject messageTransferObject) {
+        // Async call - what shall be done when the message arrives
+        // You can completely remove lines below, but then built-in events won't work
+        Bukkit.getPluginManager().callEvent(new AsyncRedisMessageReceivedEvent(channel, messageTransferObject));
+        Bukkit.getScheduler().runTask(this, () -> Bukkit.getPluginManager().callEvent(new RedisMessageReceivedEvent(channel, messageTransferObject)));
+    }
+
+    @Override
+    public Logger logger() {
+        return this.getLogger();
+    }
 }
 ```
 

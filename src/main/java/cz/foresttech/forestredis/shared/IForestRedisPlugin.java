@@ -12,12 +12,16 @@ import java.util.logging.Logger;
  */
 public interface IForestRedisPlugin {
 
+    /*----------------------------------------------------------------------------------------------------------*/
+
     /**
      * Runs asynchronous task
      *
      * @param task Task to be run async
      */
     void runAsync(Runnable task);
+
+    /*----------------------------------------------------------------------------------------------------------*/
 
     /**
      * Calls the corresponding events when message was received
@@ -27,6 +31,8 @@ public interface IForestRedisPlugin {
      */
     void callEvent(String channel, MessageTransferObject messageTransferObject);
 
+    /*----------------------------------------------------------------------------------------------------------*/
+
     /**
      * Returns logger object
      *
@@ -34,14 +40,18 @@ public interface IForestRedisPlugin {
      */
     Logger logger();
 
+    /*----------------------------------------------------------------------------------------------------------*/
 
     /**
      * Returns the {@link IConfigurationAdapter} implementation
      *
      * @return
      */
-    IConfigurationAdapter getConfigAdapter();
+    default IConfigurationAdapter getConfigAdapter() {
+        return null;
+    }
 
+    /*----------------------------------------------------------------------------------------------------------*/
 
     /**
      * Loading RedisManager from config method

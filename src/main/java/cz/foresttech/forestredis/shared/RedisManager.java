@@ -16,28 +16,44 @@ import java.util.List;
  */
 public class RedisManager {
 
-    // Singleton instance
+    /**
+     * Singleton instance
+     */
     private static RedisManager api;
 
-    // Plugin which the plugin is associated with
+    /**
+     * Plugin which the plugin is associated with
+     */
     private final IForestRedisPlugin plugin;
 
-    // Configuration object to store credentials
+    /**
+     * Configuration object to store credentials
+     */
     private final RedisConfiguration redisConfiguration;
 
-    // Current server's identifier. Shall be unique across your network.
+    /**
+     * Current server's identifier. Shall be unique across your network.
+     */
     private final String serverIdentifier;
 
-    // List of subscribed channels.
+    /**
+     * List of subscribed channels
+     */
     private final List<String> channels;
 
-    // List of current subscriptions.
+    /**
+     * List of current subscriptions
+     */
     private final List<Subscription> subscriptions;
 
-    // Current JedisPool object
+    /**
+     * Current JedisPool object
+     */
     private JedisPool jedisPool;
 
-    // Whether the processes are in closing state
+    /**
+     * Whether the processes are in closing state
+     */
     private boolean closing;
 
     /*----------------------------------------------------------------------------------------------------------*/
@@ -113,6 +129,10 @@ public class RedisManager {
      * @param channels Names of the channels to unsubscribe (case-sensitive)
      */
     public void unsubscribe(String... channels) {
+        if (this.closing) {
+            return;
+        }
+
         if (channels == null || channels.length == 0) {
             return;
         }
@@ -124,6 +144,7 @@ public class RedisManager {
             }
         } catch (Exception ex) {
             this.plugin.logger().warning("An error occurred while unsubscribing channels: " + Arrays.toString(channels) + "!");
+            return;
         }
 
         this.channels.removeAll(List.of(channels));

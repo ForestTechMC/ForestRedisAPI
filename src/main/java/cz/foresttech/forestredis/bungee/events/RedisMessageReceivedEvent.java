@@ -5,9 +5,19 @@ import cz.foresttech.forestredis.shared.models.MessageTransferObject;
 import cz.foresttech.forestredis.shared.RedisManager;
 import net.md_5.bungee.api.plugin.Event;
 
+/**
+ * BungeeCord Event class used when message was received from subscribed channel.
+ */
 public class RedisMessageReceivedEvent extends Event implements IRedisMessageReceivedEvent {
 
+    /**
+     * Name of the channel the message came from
+     */
     private final String channel;
+
+    /**
+     * MessageTransferObject containing message's data
+     */
     private final MessageTransferObject messageTransferObject;
 
     public RedisMessageReceivedEvent(String channel, MessageTransferObject messageTransferObject) {
@@ -18,11 +28,6 @@ public class RedisMessageReceivedEvent extends Event implements IRedisMessageRec
     @Override
     public String getSenderIdentifier() {
         return this.messageTransferObject.getSenderIdentifier();
-    }
-
-    @Override
-    public boolean isSelfSender() {
-        return this.messageTransferObject.getSenderIdentifier().equals(RedisManager.getAPI().getServerIdentifier());
     }
 
     @Override
@@ -39,6 +44,11 @@ public class RedisMessageReceivedEvent extends Event implements IRedisMessageRec
     @SuppressWarnings("Make sure the recieved message can really be converted to provided type!")
     public <T> T getMessageObject(Class<T> objectClass) {
         return this.messageTransferObject.parseMessageObject(objectClass);
+    }
+
+    @Override
+    public boolean isSelfSender() {
+        return this.messageTransferObject.getSenderIdentifier().equals(RedisManager.getAPI().getServerIdentifier());
     }
 
 }

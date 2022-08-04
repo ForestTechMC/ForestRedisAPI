@@ -5,6 +5,9 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
+/**
+ * BungeeCord Command Class for handling ForestRedisAPI commands
+ */
 public class BungeeForestRedisCommand extends Command {
 
     public BungeeForestRedisCommand() {

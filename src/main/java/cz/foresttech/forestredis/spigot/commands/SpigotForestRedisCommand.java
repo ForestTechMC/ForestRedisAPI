@@ -6,6 +6,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+/**
+ * Spigot Command Class for handling ForestRedisAPI commands
+ */
 public class SpigotForestRedisCommand implements CommandExecutor {
 
     @Override
