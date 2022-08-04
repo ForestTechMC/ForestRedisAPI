@@ -1,4 +1,4 @@
-package cz.foresttech.forestredis.shared.config;
+package cz.foresttech.forestredis.shared.adapter;
 
 import java.util.List;
 

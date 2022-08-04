@@ -150,6 +150,9 @@ public class MyListener implements Listener {
 
         // Identifier of the sender server.
         String senderServerId = event.getSenderIdentifier();
+        
+        // Date when the message was sent
+        long timestamp = event.getTimeStamp();
 
         // Text of the message received.
         String messageText = event.getMessage();
@@ -232,7 +235,7 @@ public class MyExamplePlugin extends JavaPlugin implements IForestRedisPlugin {
 
     @Override
     @SuppressWarnings("Called asynchronously!")
-    public void callEvent(String channel, MessageTransferObject messageTransferObject) {
+    public void onMessageReceived(String channel, MessageTransferObject messageTransferObject) {
         // Async call - what shall be done when the message arrives
         // You can completely remove lines below, but then built-in events won't work
         Bukkit.getPluginManager().callEvent(new AsyncRedisMessageReceivedEvent(channel, messageTransferObject));

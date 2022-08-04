@@ -1,10 +1,10 @@
 package cz.foresttech.forestredis.spigot;
 
 import cz.foresttech.forestredis.shared.*;
-import cz.foresttech.forestredis.shared.config.IConfigurationAdapter;
+import cz.foresttech.forestredis.shared.adapter.IConfigurationAdapter;
 import cz.foresttech.forestredis.shared.models.MessageTransferObject;
 import cz.foresttech.forestredis.spigot.commands.SpigotForestRedisCommand;
-import cz.foresttech.forestredis.spigot.config.SpigotConfigAdapter;
+import cz.foresttech.forestredis.spigot.adapter.SpigotConfigAdapter;
 import cz.foresttech.forestredis.spigot.events.AsyncRedisMessageReceivedEvent;
 import cz.foresttech.forestredis.spigot.events.RedisMessageReceivedEvent;
 import org.bukkit.Bukkit;
@@ -37,7 +37,7 @@ public class ForestRedisSpigot extends JavaPlugin implements IForestRedisPlugin 
     }
 
     @Override
-    public void callEvent(String channel, MessageTransferObject messageTransferObject) {
+    public void onMessageReceived(String channel, MessageTransferObject messageTransferObject) {
         Bukkit.getPluginManager().callEvent(new AsyncRedisMessageReceivedEvent(channel, messageTransferObject));
         Bukkit.getScheduler().runTask(this, () -> Bukkit.getPluginManager().callEvent(new RedisMessageReceivedEvent(channel, messageTransferObject)));
     }
@@ -49,7 +49,7 @@ public class ForestRedisSpigot extends JavaPlugin implements IForestRedisPlugin 
 
     @Override
     public IConfigurationAdapter getConfigAdapter() {
-        SpigotConfigAdapter spigotConfigAdapter = new SpigotConfigAdapter();
+        SpigotConfigAdapter spigotConfigAdapter = new SpigotConfigAdapter(this);
         spigotConfigAdapter.setup("config");
         return spigotConfigAdapter;
     }

@@ -1,10 +1,10 @@
 package cz.foresttech.forestredis.bungee;
 
 import cz.foresttech.forestredis.bungee.commands.BungeeForestRedisCommand;
-import cz.foresttech.forestredis.bungee.config.BungeeConfigAdapter;
+import cz.foresttech.forestredis.bungee.adapter.BungeeConfigAdapter;
 import cz.foresttech.forestredis.bungee.events.RedisMessageReceivedEvent;
 import cz.foresttech.forestredis.shared.*;
-import cz.foresttech.forestredis.shared.config.IConfigurationAdapter;
+import cz.foresttech.forestredis.shared.adapter.IConfigurationAdapter;
 import cz.foresttech.forestredis.shared.models.MessageTransferObject;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -37,7 +37,7 @@ public class ForestRedisBungee extends Plugin implements IForestRedisPlugin {
     }
 
     @Override
-    public void callEvent(String channel, MessageTransferObject messageTransferObject) {
+    public void onMessageReceived(String channel, MessageTransferObject messageTransferObject) {
         ProxyServer.getInstance().getPluginManager().callEvent(new RedisMessageReceivedEvent(channel, messageTransferObject));
     }
 
@@ -48,7 +48,7 @@ public class ForestRedisBungee extends Plugin implements IForestRedisPlugin {
 
     @Override
     public IConfigurationAdapter getConfigAdapter() {
-        BungeeConfigAdapter bungeeConfigAdapter = new BungeeConfigAdapter();
+        BungeeConfigAdapter bungeeConfigAdapter = new BungeeConfigAdapter(this);
         bungeeConfigAdapter.setup("config");
         return bungeeConfigAdapter;
     }

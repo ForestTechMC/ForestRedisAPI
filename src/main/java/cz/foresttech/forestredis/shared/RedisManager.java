@@ -379,7 +379,7 @@ public class RedisManager {
                 return;
             }
 
-            RedisManager.this.plugin.callEvent(channel, messageTransferObject);
+            RedisManager.this.plugin.onMessageReceived(channel, messageTransferObject);
         }
     }
 

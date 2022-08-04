@@ -1,6 +1,6 @@
 package cz.foresttech.forestredis.shared;
 
-import cz.foresttech.forestredis.shared.config.IConfigurationAdapter;
+import cz.foresttech.forestredis.shared.adapter.IConfigurationAdapter;
 import cz.foresttech.forestredis.shared.models.MessageTransferObject;
 import cz.foresttech.forestredis.shared.models.RedisConfiguration;
 
@@ -29,7 +29,7 @@ public interface IForestRedisPlugin {
      * @param channel
      * @param messageTransferObject
      */
-    void callEvent(String channel, MessageTransferObject messageTransferObject);
+    void onMessageReceived(String channel, MessageTransferObject messageTransferObject);
 
     /*----------------------------------------------------------------------------------------------------------*/
 

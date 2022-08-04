@@ -1,7 +1,7 @@
-package cz.foresttech.forestredis.bungee.config;
+package cz.foresttech.forestredis.bungee.adapter;
 
-import cz.foresttech.forestredis.bungee.ForestRedisBungee;
-import cz.foresttech.forestredis.shared.config.IConfigurationAdapter;
+import cz.foresttech.forestredis.shared.adapter.IConfigurationAdapter;
+import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
@@ -14,24 +14,29 @@ import java.util.List;
 
 public class BungeeConfigAdapter implements IConfigurationAdapter {
 
+    private final Plugin plugin;
     private String fileName;
     private Configuration configuration;
+
+    public BungeeConfigAdapter(Plugin plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void setup(String fileName) {
         this.fileName = fileName;
 
-        if (!ForestRedisBungee.getInstance().getDataFolder().exists()) {
-            ForestRedisBungee.getInstance().getDataFolder().mkdir();
+        if (!plugin.getDataFolder().exists()) {
+            plugin.getDataFolder().mkdir();
         }
 
-        File file = new File(ForestRedisBungee.getInstance().getDataFolder(), fileName + ".yml");
+        File file = new File(plugin.getDataFolder(), fileName + ".yml");
 
         if (!file.exists()) {
-            try (InputStream in = ForestRedisBungee.getInstance().getResourceAsStream(fileName + ".yml")) {
+            try (InputStream in = plugin.getResourceAsStream(fileName + ".yml")) {
                 Files.copy(in, file.toPath());
             } catch (IOException e) {
-                ForestRedisBungee.getInstance().logger().warning("Cannot create config.yml! This proxy won't process any Redis communication!");
+                plugin.getLogger().warning("Cannot create config.yml! This proxy won't process any Redis communication!");
                 return;
             }
             loadConfiguration();
@@ -49,9 +54,9 @@ public class BungeeConfigAdapter implements IConfigurationAdapter {
         try {
             configuration = ConfigurationProvider
                     .getProvider(YamlConfiguration.class)
-                    .load(new File(ForestRedisBungee.getInstance().getDataFolder(), fileName + ".yml"));
+                    .load(new File(plugin.getDataFolder(), fileName + ".yml"));
         } catch (IOException e) {
-            ForestRedisBungee.getInstance().logger().warning("Cannot load config.yml! This proxy won't process any Redis communication!");
+            plugin.getLogger().warning("Cannot load config.yml! This proxy won't process any Redis communication!");
             configuration = null;
         }
     }

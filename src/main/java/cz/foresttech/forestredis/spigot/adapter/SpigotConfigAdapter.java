@@ -1,11 +1,10 @@
-package cz.foresttech.forestredis.spigot.config;
+package cz.foresttech.forestredis.spigot.adapter;
 
 import com.google.common.base.Charsets;
-import cz.foresttech.forestredis.bungee.ForestRedisBungee;
-import cz.foresttech.forestredis.shared.config.IConfigurationAdapter;
-import cz.foresttech.forestredis.spigot.ForestRedisSpigot;
+import cz.foresttech.forestredis.shared.adapter.IConfigurationAdapter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.InputStream;
@@ -14,22 +13,27 @@ import java.util.List;
 
 public class SpigotConfigAdapter implements IConfigurationAdapter {
 
+    private final JavaPlugin plugin;
     private String fileName;
     private File file;
     private FileConfiguration configuration;
+
+    public SpigotConfigAdapter(JavaPlugin plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void setup(String fileName) {
         this.fileName = fileName;
 
-        if (!ForestRedisSpigot.getInstance().getDataFolder().exists()) {
-            ForestRedisSpigot.getInstance().getDataFolder().mkdir();
+        if (!plugin.getDataFolder().exists()) {
+            plugin.getDataFolder().mkdir();
         }
 
-        file = new File(ForestRedisSpigot.getInstance().getDataFolder() + "/" + fileName + ".yml");
+        file = new File(plugin.getDataFolder() + "/" + fileName + ".yml");
         if (!file.exists()) {
-            ForestRedisSpigot.getInstance().logger().info("config.yml does not exist! Creating a new one!");
-            ForestRedisSpigot.getInstance().saveResource(fileName + ".yml", false);
+            plugin.getLogger().info("config.yml does not exist! Creating a new one!");
+            plugin.saveResource(fileName + ".yml", false);
         }
 
         configuration = YamlConfiguration.loadConfiguration(file);
@@ -45,12 +49,12 @@ public class SpigotConfigAdapter implements IConfigurationAdapter {
     public void loadConfiguration() {
         try {
             configuration = YamlConfiguration.loadConfiguration(file);
-            InputStream defConfigStream = ForestRedisSpigot.getInstance().getResource(fileName + ".yml");
+            InputStream defConfigStream = plugin.getResource(fileName + ".yml");
             if (defConfigStream != null) {
                 configuration.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream, Charsets.UTF_8)));
             }
         } catch (Exception ex) {
-            ForestRedisBungee.getInstance().logger().warning("Cannot load config.yml! This server won't process any Redis communication!");
+            plugin.getLogger().warning("Cannot load config.yml! This server won't process any Redis communication!");
             configuration = null;
         }
     }
