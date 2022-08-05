@@ -109,7 +109,7 @@ public class MessageTransferObject {
      *
      * @return Date when message has been sent
      */
-    public Long getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
