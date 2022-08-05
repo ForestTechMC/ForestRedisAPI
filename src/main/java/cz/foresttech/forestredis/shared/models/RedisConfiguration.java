@@ -59,24 +59,4 @@ public class RedisConfiguration {
 
     /*----------------------------------------------------------------------------------------------------------*/
 
-    public String getHostName() {
-        return hostName;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public boolean isSsl() {
-        return ssl;
-    }
-
 }

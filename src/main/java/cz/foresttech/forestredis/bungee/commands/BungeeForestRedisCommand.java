@@ -24,16 +24,16 @@ public class BungeeForestRedisCommand extends Command {
         }
 
         if (args.length == 0) {
-            commandSender.sendMessage("§2[ForestRedisAPI] §7You're currently running on §e" + ForestRedisBungee.getInstance().getDescription().getVersion());
+            commandSender.sendMessage("§2["+ForestRedisBungee.getInstance().getDescription().getName()+"] §7You're currently running on §e" + ForestRedisBungee.getInstance().getDescription().getVersion());
             return;
         }
 
         if (args[0].equalsIgnoreCase("reload")) {
             ForestRedisBungee.getInstance().load();
-            commandSender.sendMessage("§2[ForestRedisAPI] §7ForestRedis successfully reloaded!");
+            commandSender.sendMessage("§2["+ForestRedisBungee.getInstance().getDescription().getName()+"] §7ForestRedis successfully reloaded!");
             return;
         }
 
-        commandSender.sendMessage("§2[ForestRedisAPI] §7You're currently running on §e" + ForestRedisBungee.getInstance().getDescription().getVersion());
+        commandSender.sendMessage("§2["+ForestRedisBungee.getInstance().getDescription().getName()+"] §7You're currently running on §e" + ForestRedisBungee.getInstance().getDescription().getVersion());
     }
 }

@@ -26,8 +26,8 @@ public interface IForestRedisPlugin {
     /**
      * Calls the corresponding events when message was received
      *
-     * @param channel
-     * @param messageTransferObject
+     * @param channel   Channel which received the message
+     * @param messageTransferObject {@link MessageTransferObject} which was received
      */
     void onMessageReceived(String channel, MessageTransferObject messageTransferObject);
 
@@ -36,7 +36,7 @@ public interface IForestRedisPlugin {
     /**
      * Returns logger object
      *
-     * @return
+     * @return  Logger instance of the current implementation
      */
     Logger logger();
 
@@ -45,7 +45,7 @@ public interface IForestRedisPlugin {
     /**
      * Returns the {@link IConfigurationAdapter} implementation
      *
-     * @return
+     * @return  Implementation of {@link IConfigurationAdapter}
      */
     default IConfigurationAdapter getConfigAdapter() {
         return null;

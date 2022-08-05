@@ -11,6 +11,10 @@ import net.md_5.bungee.api.plugin.Plugin;
 
 import java.util.logging.Logger;
 
+/**
+ * Bootstrap BungeeCord plugin to setup the {@link RedisManager} using configuration file.
+ * Also provides server with reload and version command.
+ */
 public class ForestRedisBungee extends Plugin implements IForestRedisPlugin {
 
     private static ForestRedisBungee instance;
@@ -53,6 +57,11 @@ public class ForestRedisBungee extends Plugin implements IForestRedisPlugin {
         return bungeeConfigAdapter;
     }
 
+    /**
+     * Obtains the instance of the plugin
+     *
+     * @return  Instance of {@link ForestRedisBungee}
+     */
     public static ForestRedisBungee getInstance() {
         return instance;
     }

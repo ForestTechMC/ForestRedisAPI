@@ -22,6 +22,12 @@ public class RedisMessageReceivedEvent extends Event implements IRedisMessageRec
      */
     private final MessageTransferObject messageTransferObject;
 
+    /**
+     * Constructs the instance of the Event
+     *
+     * @param channel   Channel in which was the message published
+     * @param messageTransferObject {@link MessageTransferObject} object containing data about published message
+     */
     public RedisMessageReceivedEvent(String channel, MessageTransferObject messageTransferObject) {
         this.channel = channel;
         this.messageTransferObject = messageTransferObject;

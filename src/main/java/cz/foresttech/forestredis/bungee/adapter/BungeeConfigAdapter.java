@@ -12,12 +12,20 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.List;
 
+/**
+ * Implementation of {@link IConfigurationAdapter} for Bungee version
+ */
 public class BungeeConfigAdapter implements IConfigurationAdapter {
 
     private final Plugin plugin;
     private String fileName;
     private Configuration configuration;
 
+    /**
+     * Constructs the instance of adapter.
+     *
+     * @param plugin {@link Plugin} instance
+     */
     public BungeeConfigAdapter(Plugin plugin) {
         this.plugin = plugin;
     }

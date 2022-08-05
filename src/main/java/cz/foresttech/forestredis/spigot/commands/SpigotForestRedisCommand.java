@@ -21,17 +21,17 @@ public class SpigotForestRedisCommand implements CommandExecutor {
         }
 
         if (args.length == 0) {
-            commandSender.sendMessage("§2[ForestRedisAPI] §7You're currently running on §e" + ForestRedisSpigot.getInstance().getDescription().getVersion());
+            commandSender.sendMessage("§2["+ForestRedisSpigot.getInstance().getDescription().getName()+"] §7You're currently running on §e" + ForestRedisSpigot.getInstance().getDescription().getVersion());
             return true;
         }
 
         if (args[0].equalsIgnoreCase("reload")) {
             ForestRedisSpigot.getInstance().load();
-            commandSender.sendMessage("§2[ForestRedisAPI] §7ForestRedis successfully reloaded!");
+            commandSender.sendMessage("§2["+ForestRedisSpigot.getInstance().getDescription().getName()+"] §7ForestRedis successfully reloaded!");
             return true;
         }
 
-        commandSender.sendMessage("§2[ForestRedisAPI] §7You're currently running on §e" + ForestRedisSpigot.getInstance().getDescription().getVersion());
+        commandSender.sendMessage("§2["+ForestRedisSpigot.getInstance().getDescription().getName()+"] §7You're currently running on §e" + ForestRedisSpigot.getInstance().getDescription().getVersion());
         return true;
     }
 }

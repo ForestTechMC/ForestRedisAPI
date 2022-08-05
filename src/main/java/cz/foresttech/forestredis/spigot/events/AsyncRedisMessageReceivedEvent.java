@@ -22,6 +22,12 @@ public class AsyncRedisMessageReceivedEvent extends Event implements IRedisMessa
      */
     private final MessageTransferObject messageTransferObject;
 
+    /**
+     * Constructs the instance of the Event
+     *
+     * @param channel   Channel in which was the message published
+     * @param messageTransferObject {@link MessageTransferObject} object containing data about published message
+     */
     public AsyncRedisMessageReceivedEvent(String channel, MessageTransferObject messageTransferObject) {
         super(true);
         this.channel = channel;

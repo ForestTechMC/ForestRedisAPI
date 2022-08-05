@@ -13,6 +13,9 @@ public class MessageTransferObject {
     private String message;
     private long timestamp;
 
+    /**
+     * Empty constructor in case of using setters to add data later
+     */
     public MessageTransferObject() {
     }
 
@@ -101,27 +104,70 @@ public class MessageTransferObject {
 
     /*----------------------------------------------------------------------------------------------------------*/
 
+    /**
+     * Obtains the timestamp of the message
+     *
+     * @return Date when message has been sent
+     */
     public Long getTimestamp() {
         return timestamp;
     }
 
+    /*----------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Changes the timestamp of the message
+     *
+     * @param timestamp New date when the message has been sent
+     */
     public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
 
+    /*----------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Obtains the server sender identifier
+     *
+     * @return  Server identifier of the sender
+     */
     public String getSenderIdentifier() {
         return senderIdentifier;
     }
 
+    /*----------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Obtains the content of the transferred message
+     *
+     * @return  Content of the message
+     */
     public String getMessage() {
         return message;
     }
 
+    /*----------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Changes the server sender identifier
+     *
+     * @param senderIdentifier  New server sender identifier
+     */
     public void setSenderIdentifier(String senderIdentifier) {
         this.senderIdentifier = senderIdentifier;
     }
 
+    /*----------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Updates the content of the transferred message
+     *
+     * @param message   New transferred message content
+     */
     public void setMessage(String message) {
         this.message = message;
     }
+
+    /*----------------------------------------------------------------------------------------------------------*/
+
 }
