@@ -10,7 +10,6 @@ redis:
 serverIdentifier: "MySuperServer1"
 
 # Names of the channels to subscribe on start. Can be empty as plugins can manually subscribe on their own.
-# For detailed information see our wiki: https://gitbook.io/foresttech/forestredis
+# For detailed information see our GitHub: https://github.com/ForestTechMC/ForestRedisAPI
 channels:
-  - "chat"
-  - "test"
+  - "my_channel"
