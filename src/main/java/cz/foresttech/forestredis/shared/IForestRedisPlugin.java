@@ -26,7 +26,7 @@ public interface IForestRedisPlugin {
     /**
      * Calls the corresponding events when message was received
      *
-     * @param channel   Channel which received the message
+     * @param channel               Channel which received the message
      * @param messageTransferObject {@link MessageTransferObject} which was received
      */
     void onMessageReceived(String channel, MessageTransferObject messageTransferObject);
@@ -36,7 +36,7 @@ public interface IForestRedisPlugin {
     /**
      * Returns logger object
      *
-     * @return  Logger instance of the current implementation
+     * @return Logger instance of the current implementation
      */
     Logger logger();
 
@@ -45,7 +45,7 @@ public interface IForestRedisPlugin {
     /**
      * Returns the {@link IConfigurationAdapter} implementation
      *
-     * @return  Implementation of {@link IConfigurationAdapter}
+     * @return Implementation of {@link IConfigurationAdapter}
      */
     default IConfigurationAdapter getConfigAdapter() {
         return null;
@@ -86,18 +86,30 @@ public interface IForestRedisPlugin {
                 configAdapter.getBoolean("redis.ssl", false)
         );
 
-        // Initialize RedisManager object
-        RedisManager.init(this, serverIdentifier, redisConfiguration);
 
         // Setup the RedisManager
         List<String> channels = configAdapter.getStringList("channels");
-        if (channels.isEmpty()) {
-            RedisManager.getAPI().setup();
+
+        // Initialize RedisManager object
+        if (RedisManager.getAPI() == null) {
+            RedisManager.init(this, serverIdentifier, redisConfiguration);
+            if (channels.isEmpty()) {
+                RedisManager.getAPI().setup();
+                return;
+            }
+
+            String[] channelsArray = channels.toArray(new String[0]);
+            RedisManager.getAPI().setup(channelsArray);
             return;
         }
 
-        String[] channelsArray = channels.toArray(new String[0]);
-        RedisManager.getAPI().setup(channelsArray);
+        // Reload the RedisManager if already initialized
+        RedisManager.getAPI().reload(serverIdentifier, redisConfiguration, true);
+        if (!channels.isEmpty()) {
+            String[] channelsArray = channels.toArray(new String[0]);
+            RedisManager.getAPI().subscribe(channelsArray);
+        }
+
     }
 
     /*----------------------------------------------------------------------------------------------------------*/

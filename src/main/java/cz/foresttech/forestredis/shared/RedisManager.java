@@ -4,9 +4,7 @@ import cz.foresttech.forestredis.shared.models.MessageTransferObject;
 import cz.foresttech.forestredis.shared.models.RedisConfiguration;
 import redis.clients.jedis.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Class for maintaining and handling connection to Redis server.
@@ -17,7 +15,7 @@ import java.util.List;
 public class RedisManager {
 
     /**
-     * Singleton instance
+     * Main instance
      */
     private static RedisManager api;
 
@@ -29,17 +27,17 @@ public class RedisManager {
     /**
      * Configuration object to store credentials
      */
-    private final RedisConfiguration redisConfiguration;
+    private RedisConfiguration redisConfiguration;
 
     /**
      * Current server's identifier. Shall be unique across your network.
      */
-    private final String serverIdentifier;
+    private String serverIdentifier;
 
     /**
-     * List of subscribed channels
+     * Set of subscribed channels
      */
-    private final List<String> channels;
+    private final HashSet<String> channels;
 
     /**
      * List of current subscriptions
@@ -66,7 +64,7 @@ public class RedisManager {
      * @param serverIdentifier   Identifier of the server (e.g. 'Bungee01'). Shall be unique to prevent bugs
      * @param redisConfiguration {@link RedisConfiguration} object with Redis server credentials
      */
-    private RedisManager(IForestRedisPlugin plugin, String serverIdentifier, RedisConfiguration redisConfiguration) {
+    public RedisManager(IForestRedisPlugin plugin, String serverIdentifier, RedisConfiguration redisConfiguration) {
         this.plugin = plugin;
         this.closing = false;
 
@@ -75,7 +73,37 @@ public class RedisManager {
 
         this.subscriptions = new ArrayList<>();
 
-        this.channels = new ArrayList<>();
+        this.channels = new HashSet<>();
+    }
+
+    /*----------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Reloads the manager while keeping already subscribed channels if set.
+     *
+     * @param serverIdentifier  New server identifier (if null, already using server id will be used)
+     * @param redisConfiguration    New RedisConfiguration (if null, already using configuration will be used)
+     * @param keepChannels  Keep already subscribed channels
+     */
+    public void reload(String serverIdentifier, RedisConfiguration redisConfiguration, boolean keepChannels) {
+        this.close();
+        this.closing = false;
+
+        if (serverIdentifier != null) {
+            this.serverIdentifier = serverIdentifier;
+        }
+        if (redisConfiguration != null) {
+            this.redisConfiguration = redisConfiguration;
+        }
+
+        if (keepChannels) {
+            String[] channels = this.channels.toArray(String[]::new);
+            this.channels.clear();
+            this.setup(channels);
+            return;
+        }
+
+        this.setup();
     }
 
     /*----------------------------------------------------------------------------------------------------------*/
@@ -108,7 +136,7 @@ public class RedisManager {
 
         // If channels were provided, add them to the list and subscribe to them
         if (channels != null && channels.length > 0) {
-            this.channels.addAll(List.of(channels));
+            this.channels.addAll(Set.of(channels));
 
             Subscription subscription = new Subscription(this.channels.toArray(new String[0]));
             this.plugin.runAsync(subscription);
@@ -137,14 +165,14 @@ public class RedisManager {
         try {
             for (Subscription sub : this.subscriptions) {
                 sub.unsubscribe(channels);
-                this.plugin.logger().info("Successfully unsubscribed channels: " + Arrays.toString(channels) + "!");
             }
+            this.plugin.logger().info("Successfully unsubscribed channels: " + Arrays.toString(channels) + "!");
         } catch (Exception ex) {
             this.plugin.logger().warning("An error occurred while unsubscribing channels: " + Arrays.toString(channels) + "!");
             return;
         }
 
-        this.channels.removeAll(List.of(channels));
+        this.channels.removeAll(Set.of(channels));
     }
 
     /*----------------------------------------------------------------------------------------------------------*/
@@ -165,7 +193,7 @@ public class RedisManager {
             return false;
         }
 
-        List<String> actualChannelsToAdd = new ArrayList<>();
+        Set<String> actualChannelsToAdd = new HashSet<>();
 
         for (String channel : channels) {
             if (this.channels.contains(channel) && channel != null) {
@@ -271,6 +299,8 @@ public class RedisManager {
             }
         }
 
+        this.subscriptions.clear();
+
         if (this.jedisPool == null) {
             return;
         }
@@ -308,7 +338,7 @@ public class RedisManager {
      *
      * @return List of all subscribed channels (case-sensitive)
      */
-    public List<String> getSubscribedChannels() {
+    public Set<String> getSubscribedChannels() {
         return channels;
     }
 
@@ -386,7 +416,7 @@ public class RedisManager {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Initialization method for creating {@link RedisManager} singleton instance. This won't start any
+     * Initialization method for creating {@link RedisManager} main instance. This won't start any
      * connection or subscription.
      *
      * @param plugin             Origin plugin which tries to obtain the instance
@@ -400,10 +430,10 @@ public class RedisManager {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Gets the singleton instance of {@link RedisManager} object. This is the only
+     * Gets the main instance of {@link RedisManager} object. This is the only
      * recommended approach to access the API methods.
      *
-     * @return Singleton instance of {@link RedisManager}
+     * @return Main instance of {@link RedisManager}
      */
     public static RedisManager getAPI() {
         return api;
