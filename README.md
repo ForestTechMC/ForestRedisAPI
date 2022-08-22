@@ -183,32 +183,28 @@ import cz.foresttech.forestredis.shared.IForestRedisPlugin;
 import cz.foresttech.forestredis.shared.RedisManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-/**
- * Use this ONLY if ForestRedisAPI plugin is not present and
- * for some reason you don't want to install it.
- */
-public class MyExamplePlugin extends JavaPlugin implements IForestRedisPlugin {
+public class MyExamplePlugin extends JavaPlugin {
 
+    private RedisManager redisManager;
+    
     @Override
     public void onEnable() {
         // ...
-        load();
+        loadRedis();
         // ...
     }
 
     @Override
     public void onDisable() {
         //...
-        if (RedisManager.getAPI() == null) {
-            return;
-        }
         // Close the RedisManager
-        RedisManager.getAPI().close();
+        if (redisManager != null) {
+            redisManager.close();
+        }
         //...
     }
 
-    @Override
-    public void load() {
+    public void loadRedis() {
         // Construct RedisConfiguration object
         RedisConfiguration redisConfiguration = new RedisConfiguration(
                 "localhost", //hostname
@@ -220,33 +216,20 @@ public class MyExamplePlugin extends JavaPlugin implements IForestRedisPlugin {
 
         // Initialize RedisManager instance (singleton)
         // Since init, use RedisManager#getAPI() to obtain the instance
-        RedisManager.init(this, serverIdentifier, redisConfiguration);
+        redisManager = new RedisManager(this, "MyServer", redisConfiguration);
         
         // Now setup the connection
-        RedisManager.getAPI().setup(/*channels*/);
+        redisManager.setup(/*channels*/);
 
         // Now you can use #getAPI() call to get singleton instance
-        RedisManager.getAPI().subscribe("MyChannel1");
+        redisManager.subscribe("MyChannel1");
     }
 
-    @Override
-    public void runAsync(Runnable task) {
-        // Required so RedisManager can run tasks async
-        Bukkit.getScheduler().runTaskAsynchronously(instance, task);
-    }
-
-    @Override
-    @SuppressWarnings("Called asynchronously!")
-    public void onMessageReceived(String channel, MessageTransferObject messageTransferObject) {
-        // Async call - what shall be done when the message arrives
-        // You can completely remove lines below, but then built-in events won't work
-        Bukkit.getPluginManager().callEvent(new AsyncRedisMessageReceivedEvent(channel, messageTransferObject));
-        Bukkit.getScheduler().runTask(this, () -> Bukkit.getPluginManager().callEvent(new RedisMessageReceivedEvent(channel, messageTransferObject)));
-    }
-
-    @Override
-    public Logger logger() {
-        return this.getLogger();
+    public void reloadRedis() {
+        // Just call reload function on the RedisManager object.
+        // If you set something to "null", the already existing values are used.
+        // In this case, the redis configuration is kept.
+        redisManager.reload("MyNewServerName", null, true);
     }
 }
 ```
