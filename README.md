@@ -179,7 +179,6 @@ This approach however **IS NOT RECOMMENDED** unless you know what you're doing!
     <summary>Example plugin main class</summary>
 
 ```java
-import cz.foresttech.forestredis.shared.IForestRedisPlugin;
 import cz.foresttech.forestredis.shared.RedisManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
