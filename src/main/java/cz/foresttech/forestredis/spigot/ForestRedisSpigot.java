@@ -45,7 +45,7 @@ public class ForestRedisSpigot extends JavaPlugin implements IForestRedisPlugin 
         AsyncRedisMessageReceivedEvent asyncRedisMessageReceivedEvent = new AsyncRedisMessageReceivedEvent(channel, messageTransferObject);
         Bukkit.getPluginManager().callEvent(asyncRedisMessageReceivedEvent);
 
-        if (asyncRedisMessageReceivedEvent.isCancelled()) {
+        if (!asyncRedisMessageReceivedEvent.isCancelled()) {
             Bukkit.getScheduler().runTask(this, () -> Bukkit.getPluginManager().callEvent(new RedisMessageReceivedEvent(asyncRedisMessageReceivedEvent.getChannel(), asyncRedisMessageReceivedEvent.getMessageTransferObject())));
         }
     }
