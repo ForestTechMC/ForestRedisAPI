@@ -1,11 +1,11 @@
 package cz.foresttech.forestredis.shared;
 
 import cz.foresttech.forestredis.shared.adapter.IConfigurationAdapter;
+import cz.foresttech.forestredis.shared.adapter.ILoggerAdapter;
 import cz.foresttech.forestredis.shared.models.MessageTransferObject;
 import cz.foresttech.forestredis.shared.models.RedisConfiguration;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Generic plugin interface. It is used to handle similar functions across Bungee and Spigot server engines.
@@ -38,7 +38,7 @@ public interface IForestRedisPlugin {
      *
      * @return Logger instance of the current implementation
      */
-    Logger logger();
+    ILoggerAdapter logger();
 
     /*----------------------------------------------------------------------------------------------------------*/
 

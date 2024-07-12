@@ -2,6 +2,8 @@ package cz.foresttech.forestredis.spigot;
 
 import cz.foresttech.forestredis.shared.*;
 import cz.foresttech.forestredis.shared.adapter.IConfigurationAdapter;
+import cz.foresttech.forestredis.shared.adapter.ILoggerAdapter;
+import cz.foresttech.forestredis.shared.adapter.JUtilLoggerAdapter;
 import cz.foresttech.forestredis.shared.models.MessageTransferObject;
 import cz.foresttech.forestredis.spigot.commands.SpigotForestRedisCommand;
 import cz.foresttech.forestredis.spigot.adapter.SpigotConfigAdapter;
@@ -20,9 +22,13 @@ public class ForestRedisSpigot extends JavaPlugin implements IForestRedisPlugin 
 
     private static ForestRedisSpigot instance;
 
+    private ILoggerAdapter loggerAdapter;
+
     @Override
     public void onEnable() {
         instance = this;
+        loggerAdapter = new JUtilLoggerAdapter(getLogger());
+
         load();
         this.getCommand("forestredis").setExecutor(new SpigotForestRedisCommand());
     }
@@ -51,8 +57,8 @@ public class ForestRedisSpigot extends JavaPlugin implements IForestRedisPlugin 
     }
 
     @Override
-    public Logger logger() {
-        return this.getLogger();
+    public ILoggerAdapter logger() {
+        return loggerAdapter;
     }
 
     @Override

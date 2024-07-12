@@ -5,6 +5,8 @@ import cz.foresttech.forestredis.bungee.adapter.BungeeConfigAdapter;
 import cz.foresttech.forestredis.bungee.events.RedisMessageReceivedEvent;
 import cz.foresttech.forestredis.shared.*;
 import cz.foresttech.forestredis.shared.adapter.IConfigurationAdapter;
+import cz.foresttech.forestredis.shared.adapter.ILoggerAdapter;
+import cz.foresttech.forestredis.shared.adapter.JUtilLoggerAdapter;
 import cz.foresttech.forestredis.shared.models.MessageTransferObject;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -19,9 +21,13 @@ public class ForestRedisBungee extends Plugin implements IForestRedisPlugin {
 
     private static ForestRedisBungee instance;
 
+    private ILoggerAdapter loggerAdapter;
+
     @Override
     public void onEnable() {
         instance = this;
+        loggerAdapter = new JUtilLoggerAdapter(getLogger());
+
         load();
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new BungeeForestRedisCommand());
     }
@@ -46,8 +52,8 @@ public class ForestRedisBungee extends Plugin implements IForestRedisPlugin {
     }
 
     @Override
-    public Logger logger() {
-        return this.getLogger();
+    public ILoggerAdapter logger() {
+        return loggerAdapter;
     }
 
     @Override
