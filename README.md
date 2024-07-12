@@ -3,7 +3,7 @@
 [![badge](https://jitpack.io/v/ForestTechMC/ForestRedisAPI.svg)](https://jitpack.io/#ForestTechMC/ForestRedisAPI)
 ![badge](https://img.shields.io/github/downloads/ForestTechMC/ForestRedisAPI/total)
 ![badge](https://img.shields.io/github/last-commit/ForestTechMC/ForestRedisAPI)
-![badge](https://img.shields.io/badge/platform-spigot%20%7C%20bungeecord-lightgrey)
+![badge](https://img.shields.io/badge/platform-spigot%20%7C%20bungeecord%20%7C%20velocity-lightgrey)
 [![badge](https://img.shields.io/discord/896466173166747650?label=discord)](https://discord.gg/2PpdrfxhD4)
 [![badge](https://img.shields.io/github/license/ForestTechMC/ForestRedisAPI)](https://github.com/ForestTechMC/ForestRedisAPI/blob/master/LICENSE.txt)
 
