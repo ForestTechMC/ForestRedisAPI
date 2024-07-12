@@ -7,7 +7,7 @@
 [![badge](https://img.shields.io/discord/896466173166747650?label=discord)](https://discord.gg/2PpdrfxhD4)
 [![badge](https://img.shields.io/github/license/ForestTechMC/ForestRedisAPI)](https://github.com/ForestTechMC/ForestRedisAPI/blob/master/LICENSE.txt)
 
-**[JavaDoc 1.0.7](https://foresttechmc.github.io/ForestRedisAPI/1.0.7/)**
+**[JavaDoc 1.2.1](https://foresttechmc.github.io/ForestRedisAPI/1.2.1/)**
 
 Simple Spigot&Bungee Redis API based on Jedis library. ForestRedisAPI allows developers to comfortably maintain
 communication between servers using simple API calls and Events. **Supports both BungeeCord and Spigot servers.**
