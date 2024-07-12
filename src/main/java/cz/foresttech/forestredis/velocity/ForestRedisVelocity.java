@@ -28,7 +28,7 @@ import java.nio.file.Path;
  * Bootstrap Velocity plugin to setup the {@link RedisManager} using configuration file.
  * Also provides server with reload and version command.
  */
-@Plugin(id="forestredisapi", name="ForestRedisAPI", version = "1.2.0-SNAPSHOT", description = "Powerful and simple Redis API by ForestTech", authors = "ForestTech")
+@Plugin(id="forestredisapi", name="ForestRedisAPI", version = "1.2.1", description = "Powerful and simple Redis API by ForestTech", authors = "ForestTech")
 public class ForestRedisVelocity implements IForestRedisPlugin {
 
     private static ForestRedisVelocity instance;

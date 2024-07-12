@@ -54,6 +54,8 @@ public class VelocityConfigAdapter implements IConfigurationAdapter {
                 return;
             }
         }
+
+        loadConfiguration();
     }
 
     @Override
@@ -73,7 +75,11 @@ public class VelocityConfigAdapter implements IConfigurationAdapter {
 
     @Override
     public String getString(String path, String def) {
-        return this.configuration.node(path).getString(def);
+        String result = configuration.node(path).getString();
+        if (result == null) {
+            return def;
+        }
+        return result;
     }
 
     @Override
